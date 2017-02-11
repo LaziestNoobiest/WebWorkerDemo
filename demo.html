@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Web Worker Demo</title>
+	<style type="text/css">
+		body
+		{
+			background: black;
+			padding: 0;
+			border: 0;
+			margin: 0;
+		}
+		canvas
+		{
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+			display: block;
+		}
+	</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script type="text/javascript">
+	var mCanvas = document.getElementById("c");
+	mCanvas.width = screen.width;
+	mCanvas.height = screen.availHeight;
+	var ctx = mCanvas.getContext("2d");
+	ctx.fillStyle = "blue";
+	function clear()
+	{
+		ctx.clearRect(0, 0, mCanvas.width, mCanvas.height);
+	}
+
+	function pulsar()
+	{
+		this.x = mCanvas.width/2;
+		this.y = mCanvas.height/2;
+		this.max_rad = mCanvas.height/2;
+		this.draw = function(r)
+		{
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, this.max_rad * Math.sin(r), 0, 2*Math.PI);
+			ctx.fill();
+		}
+	}
+
+	var pulse = new pulsar();
+	var w = new Worker("worker.js");
+	w.onmessage = function(e)
+	{
+		console.log(e.data);
+		clear();
+		pulse.draw(e.data);
+	}
+</script>
+</body>
+</html>
