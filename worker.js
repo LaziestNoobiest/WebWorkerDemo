@@ -6,4 +6,4 @@ function oscillate()
 	postMessage(rad); // post rad back to html page
 }
 
-var t = setInterval(oscillate, 100);
+var t = setInterval(oscillate, 33);
