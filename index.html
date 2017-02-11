@@ -49,7 +49,6 @@
 	var w = new Worker("worker.js");
 	w.onmessage = function(e)
 	{
-		console.log(e.data);
 		clear();
 		pulse.draw(e.data);
 	}
